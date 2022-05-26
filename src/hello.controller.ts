@@ -1,12 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 
+interface IHelloWorld {
+   readonly hello: string;
+}
 
 @Controller()
 export class HelloController
 {
    @Get('hello')
-   public  hello(): string
+   public  hello(): IHelloWorld
    {
-      return 'Hello World!';
+      return {hello: 'World!'};
    }
 }
