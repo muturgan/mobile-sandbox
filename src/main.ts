@@ -24,7 +24,7 @@ const { name, version, description } = require(path.join(process.cwd(), 'package
       .setVersion(version)
       .build();
    const document = SwaggerModule.createDocument(app, swaggerConfig);
-   SwaggerModule.setup('api', app, document);
+   SwaggerModule.setup('swagger', app, document);
 
    await app.listen(config.APP_PORT);
 })();

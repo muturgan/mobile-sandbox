@@ -4,7 +4,7 @@ import { HelloWorld } from './dto';
 import { AUTH_HEADER, JwtAuthGuard } from './jwt.guard';
 
 @ApiTags('hello world')
-@Controller()
+@Controller('api')
 export class HelloController
 {
    @Get('hello')

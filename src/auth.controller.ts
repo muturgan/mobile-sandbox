@@ -7,7 +7,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 
 @ApiTags('авторизация')
-@Controller()
+@Controller('api')
 export class AuthController
 {
    constructor(
