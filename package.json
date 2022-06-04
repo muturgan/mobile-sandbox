@@ -1,7 +1,7 @@
 {
   "name": "mobile-sandbox",
   "version": "1.0.0",
-  "description": "this is a simple api that students from my friend's mobile development course will use",
+  "description": "this is a simple api that students from my friend's mobile development course shall use",
   "author": "Andrey Sakharov <caxap_8787@mail.ru> (https://www.linkedin.com/in/andrey-sakharov/)",
   "private": true,
   "license": "MIT",
