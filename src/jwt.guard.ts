@@ -3,9 +3,13 @@ import type { FastifyRequest } from 'fastify';
 import { JwtService } from './jwt.service';
 import { TokenExpiredError } from 'jsonwebtoken';
 
-export class SessionExpiresExcepion extends HttpException {
+export class SessionExpiredExcepion extends HttpException {
    constructor() {
-      super('Время сессии истекло. Повторно войдите в систему.', 419);
+      super({
+         statusCode: 419,
+         message: 'Время сессии истекло. Повторно войдите в систему.',
+         error: 'Session Expired',
+      }, 419);
    }
 }
 
@@ -34,7 +38,7 @@ export class JwtAuthGuard implements CanActivate
       }
       catch (err) {
          throw err instanceof TokenExpiredError
-            ? new SessionExpiresExcepion()
+            ? new SessionExpiredExcepion()
             : err instanceof HttpException
                ? err
                : new UnauthorizedException();
