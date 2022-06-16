@@ -20,7 +20,7 @@ export class AuthController
    @ApiResponse({ status: HttpStatus.OK, type: SuccessResult })
    public async registration(@Body() body: AuthorisationDto): Promise<SuccessResult>
    {
-      const user = await this.dal.findByLogin(body.login);
+      const user = await this.dal.users.findByLogin(body.login);
       if (user !== null) {
          throw new ConflictException('Пользователь с таким именем уже зарегистрирован');
       }
@@ -29,7 +29,7 @@ export class AuthController
          .update(body.password)
          .digest('base64url');
 
-      await this.dal.add({ login: body.login, password: hashedPassword });
+      await this.dal.users.add({ login: body.login, password: hashedPassword });
 
       return new Success();
    }
@@ -39,7 +39,7 @@ export class AuthController
    @ApiResponse({ status: HttpStatus.OK, type: LoginResult })
    public async login(@Body() body: AuthorisationDto): Promise<LoginResult>
    {
-      const user = await this.dal.findByLogin(body.login);
+      const user = await this.dal.users.findByLogin(body.login);
       if (user === null) {
          throw new UnauthorizedException('Неверный логин или пароль');
       }
