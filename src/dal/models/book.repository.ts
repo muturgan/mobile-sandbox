@@ -25,7 +25,7 @@ export class BookRepository extends Repository<INewBook>
       super();
    }
 
-   public async findWithBooks(ID: number): Promise<IBookWithAuthor | null> {
+   public async findWithAuthor(ID: number): Promise<IBookWithAuthor | null> {
       const book = await this.find(ID);
       if (book === null) {
          return book;
@@ -45,7 +45,7 @@ export class BookRepository extends Repository<INewBook>
       };
    }
 
-   public async listWithBooks(): Promise<IBookWithAuthor[]> {
+   public async listWithAuthor(): Promise<IBookWithAuthor[]> {
       const books = await this.list();
 
       return Promise.all(
@@ -58,7 +58,7 @@ export class BookRepository extends Repository<INewBook>
       return books.filter((b) => b.authorId === authorId);
    }
 
-   public async listWithBooksByAuthorId(authorId: number): Promise<IBookWithAuthor[]> {
+   public async listWithAuthorByAuthorId(authorId: number): Promise<IBookWithAuthor[]> {
       const books = await this.listByAuthorId(authorId);
 
       return Promise.all(
