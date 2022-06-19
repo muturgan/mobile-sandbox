@@ -20,6 +20,22 @@ export abstract class Repository<T extends {}> {
       return Promise.resolve(this.store);
    }
 
+   public async update(ID: number, data: Partial<T>): Promise<void> {
+      const item = await this.find(ID);
+      if (item === null) {
+         throw new Error(`item ${ID} not found`);
+      }
+
+      Object.keys(data).forEach((key) => {
+         // @ts-ignore
+         const newValue = data?.[key];
+         if (newValue) {
+            // @ts-ignore
+            item[key] = newValue;
+         }
+      });
+   }
+
    public delete(ID: number): Promise<void> {
       delete this.store[ID];
       return Promise.resolve();
