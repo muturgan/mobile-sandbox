@@ -17,8 +17,8 @@ export class HelloController
 
    @Get('hello-wth-auth')
    @ApiOperation({summary: 'Возвращает один и тот же ответ, но только для залогиненых пользователей'})
-   @ApiBearerAuth('authorization')
-   @ApiHeader({ name: AUTH_HEADER })
+   @ApiBearerAuth(AUTH_HEADER)
+   @ApiHeader({ name: AUTH_HEADER, required: true, description: 'авторизационный заголовок' })
    @UseGuards(JwtAuthGuard)
    @ApiResponse({status: HttpStatus.OK, type: HelloWorld})
    public  helloWithAuth(): HelloWorld

@@ -27,6 +27,12 @@ export class AuthorRepository extends Repository<INewAuthor>
       super();
    }
 
+   public async findByName(name: string): Promise<IAuthor | null> {
+      const authors = await this.list();
+      const author = authors.find((a) => a.name === name);
+      return author || null;
+   }
+
    public async findWithBookIds(ID: number): Promise<IAuthorWithBookIds | null> {
       const author = await this.find(ID);
       if (author === null) {

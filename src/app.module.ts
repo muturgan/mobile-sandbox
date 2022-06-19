@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { HelloController, FaviconController, AuthController } from './controllers';
+import { HelloController, FaviconController, AuthController, AuthorsController, BooksController } from './controllers';
 import { Dal } from './dal';
 import { JwtAuthGuard, JwtService } from './providers';
 import { UserRepository } from './dal/models/user.repository';
@@ -12,6 +12,8 @@ import { BookRepository } from './dal/models/book.repository';
       FaviconController,
       HelloController,
       AuthController,
+      AuthorsController,
+      BooksController,
    ],
    providers: [
       Dal,
