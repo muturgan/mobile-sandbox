@@ -1,8 +1,8 @@
 import { Body, ConflictException, Controller, HttpCode, HttpStatus, Post, UnauthorizedException } from '@nestjs/common';
-import { Dal } from './dal';
-import { AuthorisationDto, LoginResult, Success, SuccessResult } from './dto';
+import { Dal } from '../dal';
+import { AuthorisationDto, LoginResult, Success, SuccessResult } from '../dto';
 import crypto = require('crypto');
-import { JwtService } from './jwt.service';
+import { JwtService } from '../providers';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 

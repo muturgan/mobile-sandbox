@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import jwt = require('jsonwebtoken');
-import { IUser, IJwtPayload } from './dal';
-import { config } from './config';
+import { IUser, IJwtPayload } from '../dal';
+import { config } from '../config';
 
 const jwtOptions: Readonly<jwt.SignOptions> = Object.freeze({
    algorithm: 'RS256',

@@ -5,7 +5,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { config } from './config';
 import path = require('path');
-import { HttpExceptionFilter } from './exception.filter';
+import { HttpExceptionFilter } from './providers';
 
 const { name, version, description } = require(path.join(process.cwd(), 'package.json'));
 
