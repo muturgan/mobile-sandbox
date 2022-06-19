@@ -16,7 +16,7 @@
     "dev": "export $(cat .env | xargs) && ts-node src/main.ts",
     "lint": "tslint",
     "lint_staged": "lint-staged",
-    "prepare": "husky init"
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
