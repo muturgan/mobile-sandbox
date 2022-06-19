@@ -1,4 +1,5 @@
-import { Repository } from './abstract.repository';
+import { Injectable } from '@nestjs/common';
+import { IEntity, Repository } from './abstract.repository';
 
 export interface IJwtPayload {
    readonly userNume: string;
@@ -9,12 +10,9 @@ export interface INewUser {
    readonly password: string;
 }
 
-export interface IUser {
-   readonly ID: number;
-   readonly login: string;
-   readonly password: string;
-}
+export interface IUser extends IEntity, INewUser {}
 
+@Injectable()
 export class UserRepository extends Repository<INewUser>
 {
    public findByLogin(login: string): Promise<IUser | null> {
