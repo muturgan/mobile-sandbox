@@ -1,9 +1,9 @@
 import { Body, ConflictException, Controller, HttpCode, HttpStatus, Post, UnauthorizedException } from '@nestjs/common';
-import { Dal } from '../dal';
-import { AuthorisationDto, LoginResult, Success, SuccessResult } from '../dto';
-import crypto = require('crypto');
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthorisationDto, HttpExceptionExample, LoginResult, NewId, RegistrationDto } from '../dto';
 import { JwtService } from '../providers';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Dal } from '../dal';
+import crypto = require('crypto');
 
 
 @ApiTags('авторизация')
@@ -17,26 +17,26 @@ export class AuthController
 
    @Post('registration')
    @HttpCode(HttpStatus.OK)
-   @ApiResponse({ status: HttpStatus.OK, type: SuccessResult })
-   public async registration(@Body() body: AuthorisationDto): Promise<SuccessResult>
+   @ApiOperation({summary: 'Пегистрация нового пользователя'})
+   @ApiResponse({ status: HttpStatus.OK, type: NewId })
+   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
+   public async registration(@Body() body: AuthorisationDto): Promise<NewId>
    {
       const user = await this.dal.users.findByLogin(body.login);
       if (user !== null) {
          throw new ConflictException('Пользователь с таким именем уже зарегистрирован');
       }
 
-      const hashedPassword = crypto.createHash('sha256')
-         .update(body.password)
-         .digest('base64url');
+      const id = await this.dal.users.add(new RegistrationDto(body.login, body.password));
 
-      await this.dal.users.add({ login: body.login, password: hashedPassword });
-
-      return new Success();
+      return new NewId(id);
    }
 
    @Post('login')
    @HttpCode(HttpStatus.OK)
+   @ApiOperation({summary: 'Вход в систему. Время жизни сессии - 5 минут'})
    @ApiResponse({ status: HttpStatus.OK, type: LoginResult })
+   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
    public async login(@Body() body: AuthorisationDto): Promise<LoginResult>
    {
       const user = await this.dal.users.findByLogin(body.login);

@@ -1,8 +1,8 @@
 import { Body, ConflictException, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Dal } from '../dal';
 import { HttpExceptionExample, NewAuthorBody, Success, SuccessResult, NewId, BooksList, BookWithAuthor, NewBookBody, UpdateBookBody } from '../dto';
 import { AUTH_HEADER, JwtAuthGuard } from '../providers';
+import { Dal } from '../dal';
 
 
 @ApiTags('книги')

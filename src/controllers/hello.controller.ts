@@ -1,7 +1,7 @@
 import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiHeader, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HelloWorld } from '../dto';
 import { AUTH_HEADER, JwtAuthGuard } from '../providers';
+import { HelloWorld } from '../dto';
 
 @ApiTags('hello world')
 @Controller('api')
