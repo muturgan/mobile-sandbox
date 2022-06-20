@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { IEntity, Repository } from './abstract.repository';
 
-export enum ESex {
+export enum EGender {
    MALE = 'MALE',
    FEMALE = 'FEMALE',
 }
@@ -19,7 +19,7 @@ export interface INewUser {
 export interface IProfile extends INewUser {
    readonly avatarUrl: string | null;
    readonly birthDate: string | null;
-   readonly sex: ESex | null;
+   readonly gender: EGender | null;
 }
 
 export interface IProfileToShow extends IEntity, Omit<IProfile, 'password'> {}

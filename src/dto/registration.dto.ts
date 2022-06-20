@@ -1,13 +1,13 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsString, IsUrl } from 'class-validator';
 import { IEntity } from '../dal/models/abstract.repository';
-import { ESex, IProfile, IProfileToShow } from '../dal/models/user.repository';
+import { EGender, IProfile, IProfileToShow } from '../dal/models/user.repository';
 import crypto = require('crypto');
 
 export class RegistrationDto implements IProfile {
    public readonly avatarUrl = null;
    public readonly birthDate = null;
-   public readonly sex = null;
+   public readonly gender = null;
 
    public readonly userNume: string;
    public readonly password: string;
@@ -36,15 +36,15 @@ export class ProfileToShow implements IProfileToShow {
    @ApiPropertyOptional({type: String, example: '1987-04-26', nullable: true})
    public readonly birthDate!: string | null;
 
-   @ApiPropertyOptional({enum: ESex, nullable: true})
-   public readonly sex!: ESex | null;
+   @ApiPropertyOptional({enum: EGender, nullable: true})
+   public readonly gender!: EGender | null;
 
    constructor(profile: IProfile & IEntity) {
       this.ID = profile.ID;
       this.userNume = profile.userNume;
       this.avatarUrl = profile.avatarUrl;
       this.birthDate = profile.birthDate;
-      this.sex = profile.sex;
+      this.gender = profile.gender;
    }
 }
 
@@ -64,8 +64,8 @@ export class UpdateProfileBody {
    @IsOptional()
    public readonly birthDate?: string | null;
 
-   @ApiPropertyOptional({enum: ESex, nullable: true})
-   @IsEnum(ESex)
+   @ApiPropertyOptional({enum: EGender, nullable: true})
+   @IsEnum(EGender, {message: `поле gender может принимать значения '${EGender.MALE}' и '${EGender.FEMALE}'`})
    @IsOptional()
-   public readonly sex?: ESex | null;
+   public readonly gender?: EGender | null;
 }
