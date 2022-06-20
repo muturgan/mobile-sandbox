@@ -13,8 +13,25 @@ export class ProfileController
       private readonly dal: Dal,
    ) {}
 
+   @Get('my')
+   @ApiOperation({summary: 'Возвращает профиль пользователя на основании сессии'})
+   @ApiBearerAuth(AUTH_HEADER)
+   @ApiHeader({ name: AUTH_HEADER, required: true, description: 'авторизационный заголовок' })
+   @UseGuards(JwtAuthGuard)
+   @ApiResponse({ status: HttpStatus.OK, type: ProfileToShow })
+   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
+   public async readMy(@UserId() ID: number): Promise<ProfileToShow>
+   {
+      const profile = await this.dal.users.find(ID);
+      if (profile === null) {
+         throw new NotFoundException(`Пользователь с ID ${ID} не существует`);
+      }
+
+      return new ProfileToShow(profile);
+   }
+
    @Get(':ID')
-   @ApiOperation({summary: 'Возвращает профиль пользователя'})
+   @ApiOperation({summary: 'Возвращает профиль пользователя по ID'})
    @ApiParam({name: 'ID', type: 'integer', description: 'ID пользователя', example: 1})
    @ApiResponse({ status: HttpStatus.OK, type: ProfileToShow })
    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
