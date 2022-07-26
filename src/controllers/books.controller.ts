@@ -1,6 +1,6 @@
 import { Body, ConflictException, Controller, Delete, Get, HttpStatus, NotFoundException, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { HttpExceptionExample, NewAuthorBody, Success, SuccessResult, NewId, BooksList, BookWithAuthor, NewBookBody, UpdateBookBody } from '../dto';
+import { HttpExceptionExample, Success, SuccessResult, NewId, BooksList, BookWithAuthor, NewBookBody, UpdateBookBody } from '../dto';
 import { AUTH_HEADER, JwtAuthGuard } from '../providers';
 import { Dal } from '../dal';
 
@@ -37,7 +37,7 @@ export class BooksController
    }
 
    @Post()
-   @ApiBody({type: NewAuthorBody})
+   @ApiBody({type: NewBookBody})
    @ApiOperation({summary: 'Создаёт новую книгу'})
    @ApiBearerAuth(AUTH_HEADER)
    @ApiHeader({ name: AUTH_HEADER, required: true, description: 'авторизационный заголовок' })
