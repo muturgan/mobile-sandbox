@@ -68,6 +68,9 @@ export class BooksController
    public async update(@Param('ID') ID: string, @Body() body: UpdateBookBody): Promise<SuccessResult>
    {
       const bookToEdit = await this.dal.books.find(Number(ID));
+      if (bookToEdit === null) {
+         throw new NotFoundException(`Книга с ID ${ID} не существует`);
+      }
 
       const merged = {...bookToEdit};
       Object.keys(body).forEach((key) => {
