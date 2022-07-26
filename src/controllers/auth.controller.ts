@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthorisationDto, HttpExceptionExample, LoginResult, NewId, RegistrationDto } from '../dto';
 import { JwtService } from '../providers';
 import { Dal } from '../dal';
-import crypto = require('crypto');
+import { hashPassword } from '../utils';
 
 
 @ApiTags('авторизация')
@@ -17,7 +17,7 @@ export class AuthController
 
    @Post('registration')
    @HttpCode(HttpStatus.OK)
-   @ApiOperation({summary: 'Пегистрация нового пользователя'})
+   @ApiOperation({summary: ' Регистрация нового пользователя'})
    @ApiResponse({ status: HttpStatus.OK, type: NewId })
    @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
    public async registration(@Body() body: AuthorisationDto): Promise<NewId>
@@ -44,9 +44,7 @@ export class AuthController
          throw new UnauthorizedException('Неверный логин или пароль');
       }
 
-      const hashedPassword = crypto.createHash('sha256')
-         .update(body.password)
-         .digest('base64url');
+      const hashedPassword = hashPassword(body.password);
 
       if (user.password !== hashedPassword) {
          throw new UnauthorizedException('Неверный логин или пароль');

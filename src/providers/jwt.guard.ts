@@ -32,7 +32,7 @@ export class JwtAuthGuard implements CanActivate
             throw new UnauthorizedException();
          }
 
-         await this.jwt.verufyToken(authHeader);
+         await this.jwt.verifyToken(authHeader);
 
          return true;
       }

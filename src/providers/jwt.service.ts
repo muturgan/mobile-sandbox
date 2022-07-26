@@ -13,7 +13,7 @@ export class JwtService {
 
    public generateToken(user: IUser): Promise<string> {
       return new Promise<string>((resolve, reject) => {
-         const payload: IJwtPayload = { userNume: user.userNume, ID: user.ID };
+         const payload: IJwtPayload = { login: user.login, ID: user.ID };
 
          jwt.sign(payload, config.PRIVATE_KEY, jwtOptions, (err, token) => {
             if (err !== null) {
@@ -25,7 +25,7 @@ export class JwtService {
       });
    }
 
-   public verufyToken(token: string): Promise<IJwtPayload> {
+   public verifyToken(token: string): Promise<IJwtPayload> {
       return new Promise<IJwtPayload>((resolve, reject) => {
          jwt.verify(token, config.PUBLIC_KEY, (err, decoded) => {
             if (err !== null) {

@@ -2,24 +2,20 @@ import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsOptional, IsString, IsUrl } from 'class-validator';
 import { IEntity } from '../dal/models/abstract.repository';
 import { EGender, IProfile, IProfileToShow } from '../dal/models/user.repository';
-import crypto = require('crypto');
+import { hashPassword } from '../utils';
 
 export class RegistrationDto implements IProfile {
+   public readonly userNume = null;
    public readonly avatarUrl = null;
    public readonly birthDate = null;
    public readonly gender = null;
 
-   public readonly userNume: string;
+   public readonly login: string;
    public readonly password: string;
 
    constructor(login: string, password: string) {
-      this.userNume = login;
-
-      const hashedPassword = crypto.createHash('sha256')
-         .update(password)
-         .digest('base64url');
-
-      this.password = hashedPassword;
+      this.login = login;
+      this.password = hashPassword(password);
    }
 }
 
@@ -28,7 +24,10 @@ export class ProfileToShow implements IProfileToShow {
    public readonly ID!: number;
 
    @ApiProperty({type: String})
-   public readonly userNume!: string;
+   public readonly login!: string;
+
+   @ApiPropertyOptional({type: String})
+   public readonly userNume!: string | null;
 
    @ApiPropertyOptional({type: String, example: 'https://daly-telecom.cf/images/1.jpg', nullable: true})
    public readonly avatarUrl!: string | null;
@@ -41,6 +40,7 @@ export class ProfileToShow implements IProfileToShow {
 
    constructor(profile: IProfile & IEntity) {
       this.ID = profile.ID;
+      this.login = profile.login;
       this.userNume = profile.userNume;
       this.avatarUrl = profile.avatarUrl;
       this.birthDate = profile.birthDate;
