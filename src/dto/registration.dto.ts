@@ -5,7 +5,7 @@ import { EGender, IProfile, IProfileToShow } from '../dal/models/user.repository
 import { hashPassword } from '../utils';
 
 export class RegistrationDto implements IProfile {
-   public readonly userNume = null;
+   public readonly userName = null;
    public readonly avatarUrl = null;
    public readonly birthDate = null;
    public readonly gender = null;
@@ -27,7 +27,7 @@ export class ProfileToShow implements IProfileToShow {
    public readonly login!: string;
 
    @ApiPropertyOptional({type: String})
-   public readonly userNume!: string | null;
+   public readonly userName!: string | null;
 
    @ApiPropertyOptional({type: String, example: 'https://daly-telecom.cf/images/1.jpg', nullable: true})
    public readonly avatarUrl!: string | null;
@@ -41,7 +41,7 @@ export class ProfileToShow implements IProfileToShow {
    constructor(profile: IProfile & IEntity) {
       this.ID = profile.ID;
       this.login = profile.login;
-      this.userNume = profile.userNume;
+      this.userName = profile.userName;
       this.avatarUrl = profile.avatarUrl;
       this.birthDate = profile.birthDate;
       this.gender = profile.gender;
@@ -52,7 +52,7 @@ export class UpdateProfileBody {
    @ApiPropertyOptional({type: String, nullable: true})
    @IsString()
    @IsOptional()
-   public readonly userNume?: string;
+   public readonly userName?: string;
 
    @ApiPropertyOptional({type: String, example: 'https://daly-telecom.cf/images/1.jpg', nullable: true})
    @IsUrl()

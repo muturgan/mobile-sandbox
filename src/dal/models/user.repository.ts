@@ -17,7 +17,7 @@ export interface INewUser {
 }
 
 export interface IProfile extends INewUser {
-   readonly userNume: string | null;
+   readonly userName: string | null;
    readonly avatarUrl: string | null;
    readonly birthDate: string | null;
    readonly gender: EGender | null;
