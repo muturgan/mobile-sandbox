@@ -1,6 +1,7 @@
 export * from './authors.dto';
 export * from './books.dto';
 export * from './authorisation.dto';
+export * from './file_url.dto';
 export * from './hello.dto';
 export * from './http-exception.dto';
 export * from './login_result.dto';

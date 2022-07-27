@@ -30,6 +30,7 @@
   },
   "homepage": "https://github.com/muturgan/mobile-sandbox#readme",
   "dependencies": {
+    "@fastify/multipart": "^7.1.0",
     "@fastify/static": "^6.4.1",
     "@nestjs/common": "^9.0.5",
     "@nestjs/core": "^9.0.5",

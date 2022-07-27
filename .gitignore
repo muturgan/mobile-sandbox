@@ -1,6 +1,9 @@
 private_key.pem
 public_key.pem
 
+files/*
+!files/.gitkeep
+
 # Logs
 logs
 *.log

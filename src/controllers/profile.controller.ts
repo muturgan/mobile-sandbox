@@ -1,7 +1,9 @@
-import { Body, Controller, Get, HttpStatus, NotFoundException, Param, Put, UseGuards } from '@nestjs/common';
+import { MultipartFile } from '@fastify/multipart';
+import { Body, Controller, Get, HttpCode, HttpStatus, NotFoundException, Param, Post, Put, UnsupportedMediaTypeException, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiBody, ApiHeader, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { HttpExceptionExample, ProfileToShow, Success, SuccessResult, UpdateProfileBody } from '../dto';
-import { AUTH_HEADER, JwtAuthGuard, UserId } from '../providers';
+import { AUTH_HEADER, JwtAuthGuard, UserId, UploadGuard, File } from '../providers';
+import { computeFileUrl, IMAGE_MINETYPES, writeFileOnDisk } from '../utils';
 import { Dal } from '../dal';
 
 
@@ -61,6 +63,33 @@ export class ProfileController
       }
 
       await this.dal.users.update(ID, body);
+
+      return new Success();
+   }
+
+   @Post('upload-avatar')
+   @ApiOperation({summary: 'Загружает изображение на сервер и устанавливает его в качестве аватарки'})
+   @ApiBearerAuth(AUTH_HEADER)
+   @ApiHeader({ name: AUTH_HEADER, required: true, description: 'авторизационный заголовок' })
+   @ApiHeader({ name: 'Content-Type', required: true, description: 'multipart/form-data' })
+   @UseGuards(JwtAuthGuard, UploadGuard)
+   @HttpCode(HttpStatus.OK)
+   @ApiResponse({ status: HttpStatus.OK, type: SuccessResult })
+   @ApiResponse({ status: HttpStatus.BAD_REQUEST, type: HttpExceptionExample })
+   public async uploadAvatar(@UserId() ID: number, @File() file: MultipartFile): Promise<SuccessResult> {
+      if (!IMAGE_MINETYPES.includes(file.mimetype)) {
+         throw new UnsupportedMediaTypeException('Пожалуйста загрузите файл изображения');
+      }
+
+      const profile = await this.dal.users.find(ID);
+      if (profile === null) {
+         throw new NotFoundException(`Пользователь с ID ${ID} не существует`);
+      }
+
+      await writeFileOnDisk(file);
+
+      const avatarUrl = computeFileUrl(file);
+      await this.dal.users.update(ID, {avatarUrl});
 
       return new Success();
    }
